@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#arquivo=($1)
+
+#ultimo_diretorio=$(basename "$1")
+
+#echo $ultimo_diretorio
+
+#count=$(find . -type f | wc -l)
+#echo "$count"
+
+for (( i = 0; i < 10; i++ )); do
+    touch teste"$i"."$1"
+done
