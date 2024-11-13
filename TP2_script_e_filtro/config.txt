@@ -1,0 +1,18 @@
+## Projeto de experimentos para o programa PROG
+
+FATORES:
+A = ( 5, 7.6, 10 )
+B = ( 1.5, 10, 9.5, 7.3 )
+C = ( 1, 0 )
+
+COMANDO:
+prog $A $B $C
+
+ENSAIOS:
+1 = 5, 10, ∗
+2 = 10, 9.5 , 0
+3 = ∗, 1.5 , 1
+4 = 7.6, *, 0
+5 = 5, 1.5, 1
+
+## fim do exemplo
