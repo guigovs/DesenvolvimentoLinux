@@ -16,7 +16,8 @@ function random_sleep()
 
 function media()
 {
-  local media=$(($A+$B+$C/3))
+  local media=$((($A+$B+$C)/3))
+  echo "essa e $media"
 }
 
 # Uso da função
