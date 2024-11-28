@@ -27,7 +27,7 @@ mostrar_ajuda() {
     echo "2. São elas:"
     echo "3. Zenity"
     echo "4. Openssl"
-    echo "5. Verifique seu sistema operacional a existência de tais ferramentas para o funcionamento completo do script"
+    echo "5. Verifique em seu sistema operacional a existência de tais ferramentas para o funcionamento completo do script"
     exit 0
 }
 
@@ -43,10 +43,10 @@ if [[ -z "$pasta" ]]; then
     exit 1
 fi
 
-# Solicitar o nome do arquivo de saída
-saida=$(zenity --file-selection --save --confirm-overwrite --title="Salvar arquivo criptografado como" --filename="pasta_criptografada.zip" 2>/dev/null)
+# Solicitar o nome da pasta de saída
+saida=$(zenity --file-selection --save --confirm-overwrite --title="Salvar a pasta criptografada como" --filename="secure.cript" 2>/dev/null)
 if [[ -z "$saida" ]]; then
-    mostrar_erro "Nenhum nome de arquivo foi especificado. O script será encerrado."
+    mostrar_erro "Nenhum nome para a pasta foi especificado. O script será encerrado."
     exit 1
 fi
 
@@ -57,7 +57,7 @@ if [[ -z "$senha" ]]; then
     exit 1
 fi
 
-# Compactar a pasta em um arquivo zip
+# Compactar a pasta em um arquivo zip temporario
 arquivo_zip="pasta_temporaria.zip"
 tar -czf "$arquivo_zip" -C "$(dirname "$pasta")" "$(basename "$pasta")"
 
@@ -67,12 +67,12 @@ if [[ $? -ne 0 ]]; then
     exit 1
 fi
 
-# Criptografar o arquivo zip usando AES256
+# Criptografar a pasta usando AES256
 openssl enc -e -aes256 -pbkdf2 -in "$arquivo_zip" -out "$saida" -pass pass:"$senha"
 
 # Verificar se a criptografia foi bem-sucedida
 if [[ $? -ne 0 ]]; then
-    mostrar_erro "Erro ao criptografar o arquivo. O script será encerrado."
+    mostrar_erro "Erro ao criptografar a pasta. O script será encerrado."
     # Remover o arquivo temporário
     rm "$arquivo_zip"
     exit 1

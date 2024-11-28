@@ -18,7 +18,7 @@ mostrar_ajuda() {
     echo "Após descriptografar, ele extrai o conteúdo e salva em uma pasta especificada pelo usuário."
     echo
     echo "Instruções:"
-    echo "1. O script solicita que você selecione um arquivo criptografado."
+    echo "1. O script solicita que você selecione uma pasta criptografada, como a sugerida secure.cript."
     echo "2. Em seguida, pede uma senha para descriptografar."
     echo "3. Finalmente, você escolhe uma pasta de destino onde os arquivos serão extraídos."
     echo
@@ -27,7 +27,7 @@ mostrar_ajuda() {
     echo "2. São elas:"
     echo "3. Zenity"
     echo "4. Openssl"
-    echo "5. Verifique seu sistema operacional a existência de tais ferramentas para o funcionamento completo do script"
+    echo "5. Verifique em seu sistema operacional a existência de tais ferramentas para o funcionamento completo do script"
     exit 0
 }
 
@@ -36,15 +36,15 @@ if [[ "$1" == "--help" ]]; then
     mostrar_ajuda
 fi
 
-# Selecionar o arquivo criptografado
-arquivo=$(zenity --file-selection --title="Selecione o arquivo criptografado" 2>/dev/null)
+# Selecionar a pasta criptografada
+arquivo=$(zenity --file-selection --title="Selecione a pasta criptografada" 2>/dev/null)
 if [[ -z "$arquivo" ]]; then
-    mostrar_erro "Nenhum arquivo foi selecionado. O script será encerrado. Execute novamente"
+    mostrar_erro "Nenhuma pasta foi selecionada. O script será encerrado. Execute novamente"
     exit 1
 fi
 
-# Solicitar a senha para descriptografar o arquivo
-senha=$(zenity --password --title="Digite a senha para descriptografia" 2>/dev/null)
+# Solicitar a senha para descriptografar a pasta
+senha=$(zenity --password --title="Digite a senha para a descriptografia" 2>/dev/null)
 if [[ -z "$senha" ]]; then
     mostrar_erro "Nenhuma senha foi fornecida. O script será encerrado. Execute novamente em sua totalidade."
     exit 1
@@ -65,7 +65,7 @@ openssl enc -d -aes256 -pbkdf2 -in "$arquivo" -out "$arquivo_zip" -pass pass:"$s
 
 # Verificar se a descriptografia foi bem-sucedida
 if [[ $? -ne 0 ]]; then
-    mostrar_erro "Erro ao descriptografar o arquivo. Verifique a senha e tente novamente."
+    mostrar_erro "Erro ao descriptografar a pasta. Verifique a senha e tente novamente."
     rm "$arquivo_zip" 2>/dev/null  # Remove o arquivo temporário se existir
     exit 1
 fi
