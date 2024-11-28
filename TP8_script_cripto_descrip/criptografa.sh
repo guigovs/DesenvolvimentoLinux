@@ -12,14 +12,14 @@ mostrar_ajuda() {
     echo "Uso: bash $0 [opções] ou ./$0 [opções]"
     echo
     echo "Opções:"
-    echo "  --help       Exibe este menu de ajuda."
+    echo "  --help       Exibe o menu de ajuda."
     echo
     echo "Este script criptografa um arquivo com o algoritmo AES256."
     echo "Após a criptografia, ele criará um arquivo.tar.gz, e em seguida um arquivo criptografado com o nome escolhido pelo usuário."
     echo
     echo "Instruções:"
-    echo "1. O script solicita que você selecione um arquivo a ser criptografado."
-    echo "2. Em seguida, pede uma senha para criptografia."
+    echo "1. O script solicita que você selecione uma pasta a ser criptografada."
+    echo "2. Em seguida, pede uma senha para criptografar a pasta."
     echo "3. Finalmente, você escolhe uma pasta de destino onde os arquivos serão extraídos."
     echo
     echo "Dependencias:"
@@ -46,7 +46,7 @@ if [[ -z "$pasta" ]]; then
 fi
 
 # Solicitar o nome do arquivo de saída
-saida=$(zenity --file-selection --save --confirm-overwrite --title="Salvar arquivo criptografado como" --filename="pasta_criptografada.tar.gz.bf" 2>/dev/null)
+saida=$(zenity --file-selection --save --confirm-overwrite --title="Salvar arquivo criptografado como" --filename="pasta_criptografada.tar.gz.crip" 2>/dev/null)
 if [[ -z "$saida" ]]; then
     mostrar_erro "Nenhum nome de arquivo foi especificado. O script será encerrado."
     exit 1
