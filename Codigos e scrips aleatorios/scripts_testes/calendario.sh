@@ -10,3 +10,5 @@ then
 else
   echo "Usuário não escolheu nenhuma data"
 fi
+
+mkdir /home/gen/Documentos/TP9_cron_backup/teste5
