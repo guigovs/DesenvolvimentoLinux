@@ -7,7 +7,7 @@ function faz_tarefa()
 {
     # Captura a saída do formulário em uma variável
     output=$(zenity --forms --title="Agendador de tarefas - CRON" \
-        --text="Entre com as informacoes das tarefas" \
+        --text="Entre com as informações das tarefas" \
         --separator="," \
         --add-entry="Comando" \
         --add-entry="Minutos (0 .. 59)" \
@@ -89,7 +89,7 @@ function deletar_tarefa() {
     fi
 
     # Mostrar as tarefas em uma lista para o usuário escolher
-    tarefa_escolhida=$(echo "$tarefas" | zenity --list --text="Selecione a tarefa que deseja deletar:" --column="Tarefas" 2>/dev/null)
+    tarefa_escolhida=$(echo "$tarefas" | zenity --list --width=600 --height=400 --text="Selecione a tarefa que deseja deletar:" --column="Tarefas" 2>/dev/null)
 
     # Se o usuário cancelar a seleção, retorna ao menu
     if [ -z "$tarefa_escolhida" ]; then
@@ -162,7 +162,7 @@ function menu_escolha()
                 # Se o usuário fechar a janela ou cancelar, o menu será exibido novamente
                 if [ -z "$menu" ]; then
                     zenity --error \
-                        --text="Por favor, utilize a opção Sair no menu para encerrar o programa corretamente."
+                        --text="Por favor, utilize a opção 4-Sair no menu para encerrar o programa corretamente."
                 else
                     echo "Opção inválida!"
                 fi
