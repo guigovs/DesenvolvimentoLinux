@@ -56,17 +56,19 @@ function barra_prog()
 {
 (
 echo "10" ; sleep 1
-echo "# Aguarde o processo" ; sleep 1
+echo "# Por favor, aguarde enquanto o processo é iniciado..." ; sleep 1
 echo "20" ; sleep 1
-echo "# Isso pode demorar um pouco" ; sleep 1
+echo "# Isso pode levar alguns minutos" ; sleep 1
 echo "50" ; sleep 1
-echo "# Tarefa sendo escalonada" ; sleep 1
+echo "# A tarefa está sendo agendada" ; sleep 1
 echo "75" ; sleep 1
 echo "# Processo Concluido com Sucesso!" ; sleep 1
-echo "100" ; sleep 1
+echo "100" ;
 ) |
 zenity --progress \
   --title="Criando tarefa" \
+  --width=300 \
+  --height=200 \
   --text="..." \
   --percentage=0
 
@@ -132,6 +134,8 @@ function menu_escolha()
     while true; do
         menu=$(zenity --list \
           --title="Agendador de Tarefas - Menu" \
+          --width=600 \
+          --height=400 \
           --column="Opção" --column="Descrição" \
           1 "Agendar uma tarefa" \
           2 "Deletar uma tarefa" \
@@ -157,7 +161,8 @@ function menu_escolha()
             *)
                 # Se o usuário fechar a janela ou cancelar, o menu será exibido novamente
                 if [ -z "$menu" ]; then
-                    echo "Nenhuma opção foi selecionada. Retornando ao menu"
+                    zenity --error \
+                        --text="Por favor, utilize a opção Sair no menu para encerrar o programa corretamente."
                 else
                     echo "Opção inválida!"
                 fi
