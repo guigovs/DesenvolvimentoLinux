@@ -35,14 +35,9 @@ def adicionar_produto_interface():
         messagebox.showerror("Erro", "Preencha todos os campos corretamente!")
 
 # Função para atualizar um produto selecionado
-def atualizar_produto_interface():
-    try:
-        produto_selecionado = listbox_produtos.get(listbox_produtos.curselection())
-        id_produto = int(produto_selecionado.split(" ")[1])
-    except IndexError:
-        messagebox.showerror("Erro", "Selecione um produto para atualizar!")
-        return
-
+def atualizar_todos_produtos_interface():
+    produtos = listar_produtos(con)
+    
     nome = entry_nome_produto.get() or None
     tipo = entry_tipo_produto.get() or None
     preco = entry_preco_produto.get()
@@ -51,13 +46,17 @@ def atualizar_produto_interface():
     preco = float(preco) if preco else None
     estoque = int(estoque) if estoque else None
 
-    atualizar_produto(con, id_produto, nome, tipo, preco, estoque)
+    for produto in produtos:
+        id_produto = produto[0]
+        # Atualiza o produto com os valores fornecidos ou mantém os antigos
+        atualizar_produto(con, id_produto, nome, tipo, preco, estoque)
+
     carregar_produtos()
     entry_nome_produto.delete(0, END)
     entry_tipo_produto.delete(0, END)
     entry_preco_produto.delete(0, END)
     entry_estoque_produto.delete(0, END)
-    messagebox.showinfo("Sucesso", "Produto atualizado com sucesso!")
+    messagebox.showinfo("Sucesso", "Todos os produtos foram atualizados!")
 
 # Função para deletar um produto selecionado
 def deletar_produto_interface():
@@ -138,7 +137,7 @@ if __name__ == "__main__":
     aba_produtos = Frame(notebook)
     notebook.add(aba_produtos, text="Produtos")
 
-    Label(aba_produtos, text="Nome:").grid(row=0, column=0, padx=5, pady=5)
+    Label(aba_produtos, text="Nome do Produto:").grid(row=0, column=0, padx=5, pady=5)
     entry_nome_produto = Entry(aba_produtos)
     entry_nome_produto.grid(row=0, column=1, padx=5, pady=5)
 
@@ -155,7 +154,7 @@ if __name__ == "__main__":
     entry_estoque_produto.grid(row=3, column=1, padx=5, pady=5)
 
     Button(aba_produtos, text="Adicionar Produto", command=adicionar_produto_interface).grid(row=4, column=0, padx=5, pady=5)
-    Button(aba_produtos, text="Atualizar Produto", command=atualizar_produto_interface).grid(row=4, column=1, padx=5, pady=5)
+    Button(aba_produtos, text="Atualizar Produtos", command=atualizar_todos_produtos_interface).grid(row=4, column=1, padx=5, pady=5)
     Button(aba_produtos, text="Deletar Produto", command=deletar_produto_interface).grid(row=4, column=2, padx=5, pady=5)
 
     listbox_produtos = Listbox(aba_produtos, width=90, height=15)

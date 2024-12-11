@@ -8,6 +8,8 @@ function faz_tarefa()
     # Captura a saída do formulário em uma variável
     output=$(zenity --forms --title="Agendador de tarefas - CRON" \
         --text="Entre com as informações das tarefas" \
+        --width=400 \
+        --height=300 \
         --separator="," \
         --add-entry="Comando" \
         --add-entry="Minutos (0 .. 59)" \
