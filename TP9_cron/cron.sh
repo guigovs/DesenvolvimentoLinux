@@ -19,38 +19,54 @@ function faz_tarefa()
     )
 
     # Verifica o status de saída do Zenity
-    case $? in
-        0)
-            # Separa a string capturada em variáveis (usando vírgula como separador)
-            comando=$(echo "$output" | cut -d',' -f1)
-            minutos_c=$(echo "$output" | cut -d',' -f2)
-            hora_c=$(echo "$output" | cut -d',' -f3)
-            semana_c=$(echo "$output" | cut -d',' -f4)
-            data_c=$(echo "$output" | cut -d',' -f5)
-            dia_c=$(echo "$data_c" | cut -d'/' -f1)
-            mes_c=$(echo "$data_c" | cut -d'/' -f2)
+        case $? in
+            0)
+                # Separa a string capturada em variáveis (usando vírgula como separador)
+                comando=$(echo "$output" | cut -d',' -f1)
+                minutos_c=$(echo "$output" | cut -d',' -f2)
+                hora_c=$(echo "$output" | cut -d',' -f3)
+                semana_c=$(echo "$output" | cut -d',' -f4)
+                data_c=$(echo "$output" | cut -d',' -f5)
+                dia_c=$(echo "$data_c" | cut -d'/' -f1)
+                mes_c=$(echo "$data_c" | cut -d'/' -f2)
 
-            # Remove zeros à esquerda dos dias e meses usando substituição no Bash
-            dia_c=$(echo $((10#$dia_c)))  # Remove zero à esquerda do dia
-            mes_c=$(echo $((10#$mes_c)))  # Remove zero à esquerda do mês
+                # Remove zeros à esquerda dos dias e meses
+                dia_c=$(echo $((10#$dia_c)))
+                mes_c=$(echo $((10#$mes_c)))
 
-            # Criar lista de valores separados por espaço
-            lista="$minutos_c $hora_c $dia_c $mes_c $semana_c $comando"
+                # Validando os valores inseridos
+                if [[ "$minutos_c" =~ ^[0-9]+$ ]] && (( minutos_c >= 0 && minutos_c <= 59 )) && \
+                   [[ "$hora_c" =~ ^[0-9]+$ ]] && (( hora_c >= 0 && hora_c <= 23 )) && \
+                   [[ "$semana_c" =~ ^[0-6]$ ]]; then
 
-            # Exibindo barra de progresso
-            barra_prog
+                    # Criar lista de valores separados por espaço
+                    lista="$minutos_c $hora_c $dia_c $mes_c $semana_c $comando"
 
-            # Lista as tarefas existentes e adiciona a nova tarefa ao crontab
-            (crontab -l 2>/dev/null; echo "$lista") | crontab -
+                    # Exibindo barra de progresso
+                    #barra_prog
 
-            ;;
-        1)
-            echo "Tela fechada sem escolha"
-            ;;
-        -1)
-            echo "Ocorreu um erro"
-            ;;
-    esac
+                    # Lista as tarefas existentes e adiciona a nova tarefa ao crontab
+                    (crontab -l 2>/dev/null; echo "$lista") | crontab -
+
+                    zenity --notification\
+                           --window-icon="info" \
+                           --text="Tarefa: $lista agendada"
+                else
+                    # Exibe mensagem de erro
+                    zenity --error --text="Erro: Um ou mais valores inseridos são inválidos. Por favor, insira novamente."
+                    faz_tarefa
+                fi
+                ;;
+            1)
+                zenity --error --text="Erro: Tela fechada sem escolha"
+                menu_escolha
+
+                ;;
+            -1)
+                zenity --error --text="Ocorreu um ERRO inesperado"
+                exit 1
+                ;;
+        esac
 }
 
 # Função para exibir uma barra de progresso
@@ -157,7 +173,9 @@ function menu_escolha()
                 visualizar_tarefas
                 ;;
             4)  
-                echo "Programa fechado com sucesso!"
+                zenity --notification\
+                       --window-icon="info" \
+                       --text="Programa encerrado com sucesso!!!"
                 exit 0
                 ;;
             *)

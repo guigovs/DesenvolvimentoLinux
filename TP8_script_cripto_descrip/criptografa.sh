@@ -3,12 +3,12 @@
 # Nome: Renato e Guilherme
 
 # Função para exibir mensagens de erro
-mostrar_erro() {
+function mostrar_erro() {
     zenity --error --text="$1" --title="Erro" 2>/dev/null
 }
 
 # Função para exibir o menu de ajuda
-mostrar_ajuda() {
+function mostrar_ajuda() {
     echo "Uso: bash $0 [opções] ou ./$0 [opções]"
     echo
     echo "Opções:"

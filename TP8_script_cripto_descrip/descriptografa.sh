@@ -8,7 +8,7 @@ function mostrar_erro() {
 }
 
 # Função para exibir o menu de ajuda
-mostrar_ajuda() {
+function mostrar_ajuda() {
     echo "Uso: bash $0 [opções] ou ./$0 [opções]"
     echo
     echo "Opções:"
