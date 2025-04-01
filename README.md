@@ -1,6 +1,6 @@
 # Disciplina de Desenvolvimento Linux
 
-### Nome: Renato e Guilherme
+### Nome: Guilherme e Renato
 
 ### Assuntos da disciplina.
 >#### Linguagem AWK
